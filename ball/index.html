@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .ball {
+            width: 100px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+
+    </style>
+</head>
+
+<body>
+<img class="ball" src="http://medicana_sivasspor-rizespor.macinezaman.com/images/product-image-1.png">
+<script>
+    var $ball = $('.ball');
+    //    setInterval(function() {
+    //        let topValue = $ball.offset().top;
+    //        let leftValue = $ball.offset().left;
+    //
+    //        // какие-то вычисления
+    //        // все решение может влезть сюда
+    //        // ...
+    //
+    //        // И в итоге смещаем
+    //        $ball.offset({
+    //            top: topValue,
+    //            left: leftValue
+    //        })
+    //    }, 10);
+
+    setInterval(function () {
+        $ball.offset(function (index, currentCoordinates) {
+            // Будущие новые координаты, которые мы будем возвращать
+            let newTopCoord;
+            let newLeftCoord;
+
+            // Тут сравниваем currentCoordinates.left с $(window).width() и считаем newLeftCoord
+            // сравниваем currentCoordinates.top с $(window).height() и считаем newTopCoord
+            // Осталось придумать, как менять направление движения мячика.
+
+            if ( currentCoordinates.left >= $(window).width()) {
+                currentCoordinates.left--;
+            } else {
+                currentCoordinates.left++;
+            }
+
+            if ( currentCoordinates.top >= $(window).height()) {
+                currentCoordinates.top--;
+            } else {
+                currentCoordinates.top++;
+            }
+
+            return {
+                top: currentCoordinates.top++,
+                left: currentCoordinates.left++
+            }
+        });
+    }, 10);
+
+    //    function moveTowards() {
+    //        $ball.css('left', function() {
+    //            return ballOffset.left++;
+    //        });
+    //
+    //        $ball.css('top', function() {
+    //            return ballOffset.top++;
+    //        });
+    //    }
+    //
+    //    function moveBackwards() {
+    //        $ball.css('left', function() {
+    //            return ballOffset.left--;
+    //        });
+    //
+    //        $ball.css('top', function() {
+    //            return ballOffset.top--;
+    //        });
+    //    }
+    //
+    //    function towardsInterval(callback) {
+    //        //  var deffered = $.Deferred();
+    //        setInterval(function() {
+    //            moveTowards();
+    //            if ( ballOffset.top > $(window).height() &&  ballOffset.left > $(window).width() ) {
+    //                clearInterval(towardsInterval);
+    //                backwardsInterval();
+    //                //  deffered.resolve();
+    //                //  return deffered.promise();
+    //
+    //            }
+    //
+    //
+    //        }, 10);
+    //        return true;
+    //        // console.log(deffered.state());
+    //        // if(deffered.state() === 'resolved') {
+    //        //   backwardsInterval()
+    //        // }
+    //    }
+    //
+    //    towardsInterval();
+    //
+    //    function backwardsInterval() {
+    //        setInterval(function() {
+    //            moveBackwards();
+    //            if ( ballOffset.top <= 0 && ballOffset.left <= 0 ) {
+    //                clearInterval(backwardsInterval);
+    //                towardsInterval();
+    //            }
+    //        }, 10);
+    //    }
+
+
+</script>
+</body>
+
+</html>
