@@ -24,167 +24,43 @@
 <img class="ball" src="http://medicana_sivasspor-rizespor.macinezaman.com/images/product-image-1.png">
 <script>
     var $ball = $('.ball');
-    var ballOffset = $ball.offset();
-    //    setInterval(function() {
-    //        let topValue = $ball.offset().top;
-    //        let leftValue = $ball.offset().left;
-    //
-    //        // какие-то вычисления
-    //        // все решение может влезть сюда
-    //        // ...
-    //
-    //        // И в итоге смещаем
-    //        $ball.offset({
-    //            top: topValue,
-    //            left: leftValue
-    //        })
-    //    }, 10);
-
-//    setInterval(function () {
-//        $ball.offset(function (index, currentCoordinates) {
-//
-//            // Будущие новые координаты, которые мы будем возвращать
-//            let newTopCoord = 1;
-//            let newLeftCoord = 1;
-//
-//            // Тут сравниваем currentCoordinates.left с $(window).width() и считаем newLeftCoord
-//            // сравниваем currentCoordinates.top с $(window).height() и считаем newTopCoord
-//            // Осталось придумать, как менять направление движения мячика.
-//
-//            if ( currentCoordinates.left >= $(window).width()) {
-//                currentCoordinates.left = $(window).width();
-//                newLeftCoord = -newLeftCoord ;
-//                console.log(currentCoordinates.left)
-//            } else if (currentCoordinates.left <= 0){
-//                currentCoordinates.left = 0;
-//                newLeftCoord = -newLeftCoord;
-//            }
-//
-//            if ( currentCoordinates.top >= $(window).height()) {
-//                currentCoordinates.top = $(window).height();
-//                newTopCoord = -newTopCoord;
-//            } else if (currentCoordinates.top <= 0){
-//                currentCoordinates.top = 0;
-//                newTopCoord = -newTopCoord;
-//            }
-//
-//            if (( currentCoordinates.left >= $(window).width()) && ( currentCoordinates.top >= $(window).height())) {
-//                return {
-//                    top: currentCoordinates.top + 10,
-//                    left: currentCoordinates.left + 10
-//                }
-//            }
-//
-//            return {
-//                top: currentCoordinates.top++,
-//                left: currentCoordinates.left++
-//            }
-//        });
-//    }, 10);
-//
-//        function moveTowards() {
-//            $ball.css('left', function() {
-//                return ballOffset.left++;
-//            });
-//
-//            $ball.css('top', function() {
-//                return ballOffset.top++;
-//            });
-//        }
-//
-//        function moveBackwards() {
-//            $ball.css('left', function() {
-//                return ballOffset.left--;
-//            });
-//
-//            $ball.css('top', function() {
-//                return ballOffset.top--;
-//            });
-//        }
-//
-//        function towardsInterval(callback) {
-//              var deffered = $.Deferred();
-//            setInterval(function() {
-//                moveTowards();
-//                if ( ballOffset.top > $(window).height() &&  ballOffset.left > $(window).width() ) {
-//                    clearInterval(towardsInterval);
-//                    backwardsInterval();
-//                      deffered.resolve();
-//                     // return deffered.promise();
-//
-//
-//                }
-//
-//                console.log(deffered.state());
-//
-//
-//            }, 10);
-//        }
-//
-//        towardsInterval();
-//
-//        function backwardsInterval() {
-//            setInterval(function() {
-//                moveBackwards();
-//                if ( ballOffset.top <= 0 && ballOffset.left <= 0 ) {
-//                    clearInterval(backwardsInterval);
-//                    towardsInterval();
-//                }
-//            }, 10);
-//        }
-
 
     setInterval(function () {
         $ball.offset(function (index, currentCoordinates) {
-            // Будущие новые координаты, которые мы будем возвращать
-            let newTopCoord;
-            let newLeftCoord;
 
-            var deferred = $.Deferred();
+            moveTowards();
 
-            if ( currentCoordinates.left <= $(window).width() && currentCoordinates.left > 0) {
-                currentCoordinates.left++;
-                deferred.done();
-                console.log(deferred.state());
-            } else if (currentCoordinates.left === $(window).width()){
-                currentCoordinates.left = currentCoordinates.left - 10;
-                deferred.resolve();
-                console.log(deferred.state());
-               // return deferred.promise();
-            } else if ( currentCoordinates.left <= $(window).width() && (deferred.state() === 'resolve')) {
+            function turnTowards() {
+                currentCoordinates.left = currentCoordinates.left + 30;
+                currentCoordinates.top = currentCoordinates.top + 30;
+                console.log('turnTowards');
+                return moveTowards();
+            }
+
+            function moveBackwards() {
                 currentCoordinates.left--;
-                deferred.progress();
-                console.log(deferred.state());
-            } else if (currentCoordinates.left === 0) {
-                currentCoordinates.left = currentCoordinates.left + 10;
+                currentCoordinates.top--;
+                if (currentCoordinates.left + $ball.outerWidth() === 0) {
+                   return turnTowards();
+                }
+                console.log('moveBackwards');
             }
 
-            if ( currentCoordinates.top >= $(window).height()) {
-                currentCoordinates.top--;
-            } else {
-                currentCoordinates.top++;
+            function turnBackwards() {
+                currentCoordinates.left = currentCoordinates.left - 30;
+                currentCoordinates.top = currentCoordinates.top - 30;
+                console.log('turnBackwards');
+               return moveBackwards();
             }
-//
-//            let coordinateLeft = currentCoordinates.left;
-//            console.log(coordinateLeft);
-//
-//            switch (coordinateLeft) {
-//                case coordinateLeft <= $(window).width() && coordinateLeft > 0:
-//                    currentCoordinates.left++;
-//                    console.log('ololo1');
-//                case coordinateLeft === $(window).width():
-//                    currentCoordinates.left = currentCoordinates.left - 10;
-//                    console.log('ololo2');
-//                case coordinateLeft <= $(window).width():
-//                    currentCoordinates.left--;
-//                    console.log('ololo3');
-//                case coordinateLeft === 0:
-//                    currentCoordinates.left = currentCoordinates.left + 10;
-//                    console.log('ololo4');
-//                    break;
-//                default:
-//                    console.log('ololo');
-//            }
+
+            function moveTowards() {
+                currentCoordinates.left++;
+                currentCoordinates.top++;
+                if (currentCoordinates.left + $ball.outerWidth() >= $(window).width()) {
+                    turnBackwards();
+                }
+                console.log('moveTowards');
+            }
 
             return {
                 top: currentCoordinates.top++,
