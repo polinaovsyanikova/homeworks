@@ -10,64 +10,56 @@
             margin: 0;
             padding: 0;
         }
+
         .ball {
             width: 100px;
             position: absolute;
             top: 1px;
             left: 1px;
         }
-
     </style>
 </head>
 
 <body>
 <img class="ball" src="http://medicana_sivasspor-rizespor.macinezaman.com/images/product-image-1.png">
 <script>
+    var horisontalSpeed = 1;
+    var verticalSpeed = 1;
+    var tickInterval = 10;
     var $ball = $('.ball');
-
+    
     setInterval(function () {
         $ball.offset(function (index, currentCoordinates) {
 
-            moveTowards();
+            currentCoordinates.left += tickInterval * horisontalSpeed;
+            currentCoordinates.top += tickInterval * verticalSpeed;
 
-            function turnTowards() {
-                currentCoordinates.left = currentCoordinates.left + 30;
-                currentCoordinates.top = currentCoordinates.top + 30;
-                console.log('turnTowards');
-                return moveTowards();
-            }
-
-            function moveBackwards() {
-                currentCoordinates.left--;
-                currentCoordinates.top--;
-                if (currentCoordinates.left + $ball.outerWidth() === 0) {
-                   return turnTowards();
-                }
-                console.log('moveBackwards');
-            }
-
-            function turnBackwards() {
-                currentCoordinates.left = currentCoordinates.left - 30;
-                currentCoordinates.top = currentCoordinates.top - 30;
-                console.log('turnBackwards');
-               return moveBackwards();
-            }
-
-            function moveTowards() {
-                currentCoordinates.left++;
-                currentCoordinates.top++;
+            if (horisontalSpeed > 0) {
                 if (currentCoordinates.left + $ball.outerWidth() >= $(window).width()) {
-                    turnBackwards();
+                    horisontalSpeed *= -1;
                 }
-                console.log('moveTowards');
+            } else {
+                if (currentCoordinates.left <= 0) {
+                    horisontalSpeed *= -1;
+                }
             }
 
+            if (verticalSpeed > 0) {
+                if (currentCoordinates.top + $ball.outerHeight() >= $(window).height()) {
+                    verticalSpeed *= -1;
+                }
+            } else {
+                if (currentCoordinates.top <= 0) {
+                    verticalSpeed *= -1;
+                }
+            }
             return {
                 top: currentCoordinates.top,
                 left: currentCoordinates.left
             }
         });
-    }, 10);
+    }, tickInterval);
+
 
 </script>
 </body>
